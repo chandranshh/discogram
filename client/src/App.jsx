@@ -1,13 +1,15 @@
 import React from "react";
 import Form from "./modules/Form/Form";
 import Dashboard from "./modules/Dashboard/Dashboard";
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
-    <div className="bg-[#e4ebf4] h-screen flex justify-center items-center">
-      {/* <Form /> */}
-      <Dashboard />
-    </div>
+    <Routes>
+      <Route path="/users/register" element={<Form />} />
+      <Route spath="/users/login" element={<Form />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
 };
 

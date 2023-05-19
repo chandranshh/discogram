@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Avatar,
+  AvatarBadge,
+  AvatarGroup,
+} from "@chakra-ui/react";
 
 function Dashboard() {
   const contacts = [
@@ -96,7 +102,7 @@ function Dashboard() {
         </div>
       </div>
       <div className="w-[50%] bg-white flex flex-col items-center">
-        <div className="w-[75%] bg-[#f3f5ff] h-[80px] mt-14 rounded-full flex items-center">
+        <div className="w-[75%] bg-[#f3f5ff] h-[80px] my-4 rounded-full flex items-center">
           <Avatar
             className="mx-3"
             size="lg"
@@ -108,21 +114,28 @@ function Dashboard() {
             <div>{selectedUser.status}</div>
           </div>
         </div>
-        <div className="h-[75%] w-full overflow-scroll">
-          <div className="h-full px-10 py-14">
-            <div className="h-auto w-fit max-w-[45%] bg-[#f3f5ff] rounded-b-xl m-2 rounder-tr-xl p-4">
+        <div className="h-[75%] w-full ">
+          <div className="p-8 overflow-y-scroll no-scrollbar">
+            <div className="h-auto w-fit max-w-[40%] bg-[#f3f5ff] rounded-b-xl m-2 rounder-tr-xl p-4">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni
               odio at eveniet in, placeat, eaque nemo pariatur sint molestiae
               earum aliquid laboriosam? Asperiores!
             </div>
-            <div className="h-auto w-fit max-w-[45%] bg-[#1476ff] rounded-xl m-2 p-4 ml-auto">
+            <div className="h-auto w-fit max-w-[40%] text-white bg-[#1476ff] rounded-xl m-2 p-4 ml-auto">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet,
               assumenda!
             </div>
-            <div className="h-auto w-fit max-w-[45%] bg-[#1476ff] rounded-xl r m-2 p-4 ml-auto">
-              Hi! How are?
-            </div>
           </div>
+        </div>
+        <div className="flex p-5 w-full items-center gap-5 mt-6">
+          <Input
+            className="w-[90%]"
+            size="lg"
+            placeholder="type your text here"
+          />
+          <Button colorScheme="blue" size="lg">
+            Send
+          </Button>
         </div>
       </div>
       <div className="w-[25%]"></div>
