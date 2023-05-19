@@ -4,7 +4,6 @@ import {
   InputGroup,
   InputLeftAddon,
   Button,
-  ButtonGroup,
   Input,
 } from "@chakra-ui/react";
 
@@ -16,6 +15,10 @@ function Form() {
 
   const onClickHandler = () => {
     setIsMember(!isMember);
+  };
+
+  const onSubmitHandler = () => {
+    console.log(fullName, username, password);
   };
 
   const setFullNameHandler = (ev) => {
@@ -35,44 +38,55 @@ function Form() {
       <div className="text-4xl font-extrabold">
         {isMember ? `Welcome Back` : `Welcome`}
       </div>
-      <div className="text-xl font-light mb-6">
-        {isMember ? "Login to explore further" : `Sign up now to get started!`}
+      <div
+        className={
+          "text-xl font-light " + (isMember ? `mb-[1.5rem]` : `mb-[2.5rem]`)
+        }
+      >
+        {isMember ? " " : `Sign up now to get started!`}
       </div>
 
-      <Stack spacing={4}>
-        {!isMember && (
+      <form action="submit" className="flex flex-col">
+        <Stack spacing={4}>
+          {!isMember && (
+            <InputGroup>
+              <InputLeftAddon children="Full Name" width="110px" />
+              <Input
+                value={fullName}
+                type="name"
+                placeholder="enter full name here"
+                onChange={setFullNameHandler}
+              />
+            </InputGroup>
+          )}
           <InputGroup>
-            <InputLeftAddon children="Full Name" width="110px" />
+            <InputLeftAddon children="Username" width="110px" />
             <Input
-              value={fullName}
-              type="name"
-              placeholder="enter full name here"
-              onChange={setFullNameHandler}
+              value={username}
+              type="username"
+              placeholder="enter your username here"
+              onChange={setUsernameHandler}
             />
           </InputGroup>
-        )}
-        <InputGroup>
-          <InputLeftAddon children="Username" width="110px" />
-          <Input
-            value={username}
-            type="username"
-            placeholder="enter your username here"
-            onChange={setUsernameHandler}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftAddon children="Password" width="110px" />
-          <Input
-            value={password}
-            type="password"
-            placeholder="enter your password here"
-            onChange={setPasswordHandler}
-          />
-        </InputGroup>
-      </Stack>
-      <Button colorScheme="blue" variant="outline" className="mt-5">
-        {isMember ? `Login` : `Sign Up`}
-      </Button>
+          <InputGroup>
+            <InputLeftAddon children="Password" width="110px" />
+            <Input
+              value={password}
+              type="password"
+              placeholder="enter your password here"
+              onChange={setPasswordHandler}
+            />
+          </InputGroup>
+        </Stack>
+        <Button
+          colorScheme="blue"
+          variant="outline"
+          className="mt-[1.5rem] self-center"
+          onClick={onSubmitHandler}
+        >
+          {isMember ? `Login` : `Sign Up`}
+        </Button>
+      </form>
 
       <div className="mt-4 text-lg">
         {isMember ? `Don't have an accout?` : `Already have an account?`}
