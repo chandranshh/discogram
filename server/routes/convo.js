@@ -44,6 +44,7 @@ router.get("/:userId", async (req, res) => {
           user: {
             username: user.username,
             fullName: user.fullName,
+            userId: user._id,
           },
           conversationId: convo._id,
         };

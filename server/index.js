@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const app = express();
 
 //imports routes
@@ -19,6 +20,7 @@ dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 //api test
 app.get(`/`, (req, res) => {
