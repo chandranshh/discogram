@@ -39,9 +39,12 @@ router.post("/", async (req, res) => {
           if (error) {
             throw error;
           } else {
+            createdUser.token = token;
+            createdUser.save();
             res.cookie("token", token).status(200).json({
               userId: createdUser._id,
               username: username,
+              token: createdUser.token,
             });
           }
         }

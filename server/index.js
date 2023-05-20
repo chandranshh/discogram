@@ -4,6 +4,7 @@ const app = express();
 
 //imports routes
 const handleRegister = require("./routes/register");
+const handleLogin = require("./routes/login");
 
 //imports
 require("./connection");
@@ -23,6 +24,7 @@ app.get(`/`, (req, res) => {
 
 //routes
 app.use("/api/register", handleRegister);
+app.use("/api/login", handleLogin);
 
 //port listening
 const port = process.env.PORT;
