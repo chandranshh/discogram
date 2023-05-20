@@ -7,6 +7,7 @@ const handleRegister = require("./routes/register");
 const handleLogin = require("./routes/login");
 const handleConvo = require("./routes/convo");
 const handleMessage = require("./routes/message");
+const handleUsers = require("./routes/users");
 
 //imports
 require("./connection");
@@ -29,6 +30,7 @@ app.use("/api/register", handleRegister);
 app.use("/api/login", handleLogin);
 app.use("/api/convo", handleConvo);
 app.use("/api/message", handleMessage);
+app.use("/api/users", handleUsers);
 
 //port listening
 const port = process.env.PORT;

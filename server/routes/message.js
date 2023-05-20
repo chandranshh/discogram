@@ -7,13 +7,30 @@ dotenv.config();
 
 //import schema
 const Messages = require("../models/Messages");
+const Users = require("../models/Users");
+const Convo = require("../models/Convo");
 
 //messageAPI
-const jwt_secret = process.env.JWT_SECRET;
-
 router.post("/", async (req, res) => {
   try {
-    const { senderId, conversationId, text } = req.body;
+    const { senderId, conversationId, text, receiverId = "" } = req.body;
+    if (!senderId || !text)
+      return res.status(500).json("Please enter all fields");
+    if (!conversationId && receiverId) {
+      const newConvo = new Convo({
+        members: [senderId, receiverId],
+      });
+      await newConvo.save();
+      const newMessage = new Messages({
+        conversationId: newConvo._id,
+        senderId,
+        text: text,
+      });
+      await newMessage.save();
+      res.status(200).json("Message sent successfully");
+    } else {
+      res.status(500).json("Please enter all fields");
+    }
     const newMessage = new Messages({
       senderId,
       conversationId,
@@ -21,6 +38,28 @@ router.post("/", async (req, res) => {
     });
     await newMessage.save();
     res.status(200).json("Message sent successfully");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get("/:conversationId", async (req, res) => {
+  try {
+    const conversationId = req.params.conversationId;
+    if (conversationId === "new") return res.status(200).json([]);
+    const messages = await Messages.find({
+      conversationId: conversationId,
+    });
+    const messageUserData = Promise.all(
+      messages.map(async (message) => {
+        const user = await Users.findById(message.senderId);
+        return {
+          user: { username: user.username, fullName: user.fullName },
+          text: message.text,
+        };
+      })
+    );
+    res.status(200).json(await messageUserData);
   } catch (error) {
     res.status(500).json(error);
   }
