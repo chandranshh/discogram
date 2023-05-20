@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
             res.cookie("token", token).status(200).json({
               userId: createdUser._id,
               username: username,
-              token: createdUser.token,
+              token: token,
             });
           }
         }
