@@ -8,7 +8,7 @@ function Dashboard() {
     const fetchConvo = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/convo/${loggedInUser.userId}`
+          `https://discogram-backend.vercel.app/api/convo/${loggedInUser.userId}`
         );
         const data = res.data;
         setConvo(data);
@@ -23,7 +23,9 @@ function Dashboard() {
   const [contacts, setContacts] = useState([]);
 
   const fetchAllUsers = async () => {
-    const res = await axios.get("http://localhost:3001/api/users");
+    const res = await axios.get(
+      "https://discogram-backend.vercel.app/api/users"
+    );
     const data = res.data;
     setContacts([...data]);
   };
@@ -43,7 +45,7 @@ function Dashboard() {
 
   const fetchMessages = async (conversationId) => {
     const res = await axios.get(
-      `http://localhost:3001/api/message/${conversationId}`
+      `https://discogram-backend.vercel.app/api/message/${conversationId}`
     );
     const data = res.data;
     setMessage([...data]);
@@ -64,7 +66,7 @@ function Dashboard() {
 
   // const newUserMsgHandler = async (e) => {
   //   e.preventDefault();
-  //   const res = await axios.post(`http://localhost:3001/api/convo`, {
+  //   const res = await axios.post(`https://discogram-backend.vercel.app/api/convo`, {
   //     senderId: user.userId,
   //     receiverId: selectedUser.userId,
   //   });
@@ -100,22 +102,28 @@ function Dashboard() {
 
   const sendMessageHandler = async () => {
     if (selectedUser) {
-      const response = await axios.post(`http://localhost:3001/api/message`, {
-        senderId: user.userId,
-        receiverId: selectedUser.userId,
-        text: sendText,
-        conversationId: convoId,
-      });
+      const response = await axios.post(
+        `https://discogram-backend.vercel.app/api/message`,
+        {
+          senderId: user.userId,
+          receiverId: selectedUser.userId,
+          text: sendText,
+          conversationId: convoId,
+        }
+      );
       if (convoId === "new") {
         setConvoId(response.data.conversationId);
       }
     } else {
-      const response = await axios.post(`http://localhost:3001/api/message`, {
-        senderId: user.userId,
-        receiverId: peopleUser._id,
-        text: sendText,
-        conversationId: "new",
-      });
+      const response = await axios.post(
+        `https://discogram-backend.vercel.app/api/message`,
+        {
+          senderId: user.userId,
+          receiverId: peopleUser._id,
+          text: sendText,
+          conversationId: "new",
+        }
+      );
       setConvoId(response.data.conversationId);
       setSelectedUser({ ...peopleUser, userId: response.data.receiverId });
     }
@@ -125,7 +133,7 @@ function Dashboard() {
 
   // const sendMessageHandler = async (e) => {
   //   e.preventDefault();
-  //   await axios.post(`http://localhost:3001/api/message`,{
+  //   await axios.post(`https://discogram-backend.vercel.app/api/message`,{
   //     senderId: user.userId,
   //     receiverId: selectedUser.userId,
   //     text: sendText,

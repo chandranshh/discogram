@@ -23,7 +23,7 @@ function Form() {
     e.preventDefault();
     if (isMember) {
       axios
-        .post("http://localhost:3001/api/login", {
+        .post("https://discogram-backend.vercel.app/api/login", {
           username: username,
           password: password,
         })
@@ -39,7 +39,7 @@ function Form() {
         });
     } else {
       axios
-        .post("http://localhost:3001/api/register", {
+        .post("https://discogram-backend.vercel.app/api/register", {
           username: username,
           password: password,
           fullName: fullName,
