@@ -16,19 +16,32 @@ router.post("/", async (req, res) => {
     const { senderId, conversationId, text, receiverId = "" } = req.body;
     if (!senderId || !text)
       return res.status(500).json("Please enter all fields");
-    if (!conversationId && receiverId) {
-      const newConvo = new Convo({
-        members: [senderId, receiverId],
+
+    if (conversationId === "new" && receiverId) {
+      // Check if conversation already exists
+      const existingConvo = await Convo.findOne({
+        members: { $all: [senderId, receiverId] },
       });
-      await newConvo.save();
+
+      let conversation;
+      if (existingConvo) {
+        conversation = existingConvo;
+      } else {
+        // Create a new conversation
+        const newConvo = new Convo({
+          members: [senderId, receiverId],
+        });
+        conversation = await newConvo.save();
+      }
+
       const newMessage = new Messages({
-        conversationId: newConvo._id,
+        conversationId: conversation._id,
         senderId,
         text: text,
       });
       await newMessage.save();
       res.status(200).json("Message sent successfully");
-    } else if (conversationId) {
+    } else if (conversationId !== "new" && text) {
       const newMessage = new Messages({
         senderId,
         conversationId,

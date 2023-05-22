@@ -3,10 +3,10 @@ import Form from "./modules/Form/Form";
 import Dashboard from "./modules/Dashboard/Dashboard";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = localStorage.getItem("user:token") !== null || true;
+const ProtectedRoute = ({ children, auth = false }) => {
+  const isLoggedIn = localStorage.getItem("user:token") !== null || false;
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && auth) {
     return <Navigate to={"/"} />;
   } else if (isLoggedIn && ["/"].includes(window.location.pathname)) {
     return <Navigate to={"/dashboard"} />;
@@ -28,7 +28,7 @@ const App = () => {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute auth={true}>
             <Dashboard />
           </ProtectedRoute>
         }

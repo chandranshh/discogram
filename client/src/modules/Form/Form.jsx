@@ -6,6 +6,8 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 function Form() {
   const [isMember, setIsMember] = useState(false);
@@ -17,8 +19,42 @@ function Form() {
     setIsMember(!isMember);
   };
 
-  const onSubmitHandler = () => {
-    console.log(fullName, username, password);
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    if (isMember) {
+      axios
+        .post("http://localhost:3001/api/login", {
+          username: username,
+          password: password,
+        })
+        .then((res) => {
+          const userData = res.data;
+
+          localStorage.setItem("user:token", res.data.token);
+          localStorage.setItem("user:detail", JSON.stringify(userData));
+          window.location.href = "/dashboard";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post("http://localhost:3001/api/register", {
+          username: username,
+          password: password,
+          fullName: fullName,
+        })
+        .then((res) => {
+          const userData = res.data;
+
+          localStorage.setItem("user:token", res.data.token);
+          localStorage.setItem("user:detail", JSON.stringify(userData));
+          window.location.href = "/dashboard";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const setFullNameHandler = (ev) => {
